@@ -18,6 +18,7 @@ import playIcon from '../../../public/assets/play-icon.svg';
 import pauseIcon from '../../../public/assets/pause-icon.svg';
 import trashIcon from '../../../public/assets/trash-icon.svg';
 import successIcon from '../../../public/assets/success-icon.svg';
+import Router from 'next/router';
 
 interface IActivity {
   id: number;
@@ -34,18 +35,18 @@ export default function Timer() {
       time: '00:05',
       status: 'pending',
     },
-    {
-      id: 2,
-      name: 'Preparar projeto do curso',
-      time: '00:05',
-      status: 'pending',
-    },
-    {
-      id: 3,
-      name: 'Ler Stephen King',
-      time: '00:05',
-      status: 'pending',
-    },
+    // {
+    //   id: 2,
+    //   name: 'Preparar projeto do curso',
+    //   time: '00:05',
+    //   status: 'pending',
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Ler Stephen King',
+    //   time: '00:05',
+    //   status: 'pending',
+    // },
   ]);
 
   const [selectedActivity, setSelectedActivity] = useState<IActivity>();
@@ -140,6 +141,10 @@ export default function Timer() {
     [activitiesList, selectedActivity],
   );
 
+  // user
+
+  const setLogout = useCallback(() => Router.push('/'), []);
+
   return (
     <>
       <Head>
@@ -162,7 +167,7 @@ export default function Timer() {
             </div>
             <div className='div__data-user--email'>werlleyponte@gmail.com</div>
           </div>
-          <button type='button'>
+          <button type='button' onClick={setLogout}>
             <Image
               src={logoutIcon}
               alt='logout'
@@ -222,7 +227,7 @@ export default function Timer() {
             </button>
           </SubHeader>
           <Deck>
-            {activitiesList.map((activity) => (
+            {activitiesList?.map((activity) => (
               <Card key={activity.id} status={activity.status}>
                 <div className='div__card--title' title={activity.name}>
                   <b>#{activity.id}</b> {activity.name}
@@ -264,6 +269,11 @@ export default function Timer() {
                 )}
               </Card>
             ))}
+            {activitiesList.length === 0 && (
+              <div className='div__empty-deck'>
+                Nenhuma atividade cadastrada
+              </div>
+            )}
           </Deck>
         </Container>
       </Main>

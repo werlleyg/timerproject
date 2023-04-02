@@ -141,6 +141,21 @@ export const Deck = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  .div__empty-deck {
+    height: 3.875rem;
+    background: var(--prymary-color-darkness-50);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    font-weight: 300;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    color: var(--primary-color);
+    padding: 0rem 1rem;
+  }
 `;
 
 // --------------------------------
