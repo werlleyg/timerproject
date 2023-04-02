@@ -55,11 +55,22 @@ export const Container = styled.section`
   }
 `;
 
-export const TimerContent = styled.div`
+// --------------------------------
+
+interface ITimerContent {
+  status: 'pending' | 'active' | 'completed';
+}
+
+export const TimerContent = styled.div<ITimerContent>`
   margin-top: 2rem;
   padding: 2rem;
 
-  background: var(--primary-color-darkness);
+  transition: 0.3s;
+
+  background: ${(props) =>
+    props.status === 'completed'
+      ? 'var(--tertiary-color-dark)'
+      : 'var(--primary-color-darkness)'};
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
 

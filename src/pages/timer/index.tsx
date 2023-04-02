@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState, useRef } from 'react';
 
 import {
   Header,
@@ -17,6 +17,7 @@ import logoutIcon from '../../../public/assets/logout-icon.svg';
 import playIcon from '../../../public/assets/play-icon.svg';
 import pauseIcon from '../../../public/assets/pause-icon.svg';
 import trashIcon from '../../../public/assets/trash-icon.svg';
+import successIcon from '../../../public/assets/success-icon.svg';
 
 interface IActivitiesList {
   id: number;
@@ -47,6 +48,64 @@ export default function Timer() {
     },
   ]);
 
+  const [selectedActivity, setSelectedActivity] = useState<IActivitiesList>({
+    id: 1,
+    name: 'Jogar RE4',
+    time: '00:05',
+    status: 'pending',
+  });
+
+  const [counterStart, setCounterStart] = useState<boolean>(false);
+
+  const counter = useRef<ReturnType<typeof setInterval> | undefined>();
+
+  const startTimer = useCallback(() => {
+    if (!selectedActivity.time) return '--:--';
+
+    setCounterStart(true);
+
+    const [strMin, strSec] = selectedActivity.time.split(':');
+
+    let auxMinutes = Number(strMin);
+    let auxSeconds = Number(strSec);
+    let minutes: string, seconds: string;
+
+    counter.current = setInterval(() => {
+      if (auxSeconds > 0) {
+        auxSeconds--;
+      } else {
+        auxMinutes--;
+        auxSeconds = 59;
+      }
+
+      minutes = auxMinutes < 10 ? '0' + auxMinutes : '' + auxMinutes;
+      seconds = auxSeconds < 10 ? '0' + auxSeconds : '' + auxSeconds;
+
+      setSelectedActivity({
+        ...selectedActivity,
+        time: `${minutes}:${seconds}`,
+      });
+
+      if (minutes === '00' && seconds === '00') {
+        clearInterval(counter.current);
+        setSelectedActivity({
+          ...selectedActivity,
+          status: 'completed',
+          time: '00:00',
+        });
+
+        return setCounterStart(false);
+      }
+
+      console.log('[auxSeconds]', minutes, ' - ', seconds);
+    }, 1000);
+  }, [selectedActivity]);
+
+  const stopTimer = useCallback(() => {
+    clearInterval(counter.current);
+    setCounterStart(false);
+  }, [counter]);
+
   return (
     <>
       <Head>
@@ -76,20 +135,28 @@ export default function Timer() {
         </Header>
         <Container>
           <h1>Timer</h1>
-          <TimerContent>
+          <TimerContent status={selectedActivity.status}>
             <h3>
-              <b>#1</b> Jogar Resident Evil 4
+              <b>#{selectedActivity.id}</b> {selectedActivity.name}
             </h3>
-            <div className='div__timer--counter'>00:30</div>
-            <div className='div__timer--options'>
-              <button>
-                {' '}
-                <Image src={playIcon} alt='play' />
-              </button>
-              <button>
-                <Image src={pauseIcon} alt='pause' />
-              </button>
+            <div className='div__timer--counter' id='timer-number'>
+              {selectedActivity.time}
             </div>
+            {selectedActivity.status === 'completed' ? (
+              <div className={'div__timer--options'}>
+                <Image src={successIcon} alt='sucesso' />
+              </div>
+            ) : (
+              <div className={'div__timer--options'}>
+                <button onClick={startTimer} disabled={counterStart}>
+                  {' '}
+                  <Image src={playIcon} alt='play' />
+                </button>
+                <button onClick={stopTimer} disabled={!counterStart}>
+                  <Image src={pauseIcon} alt='pause' />
+                </button>
+              </div>
+            )}
           </TimerContent>
           <div className='div__sub-footer'>
             Desenvolvido com ❤️ por{' '}
