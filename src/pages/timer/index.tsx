@@ -114,7 +114,7 @@ export default function Timer() {
           <Deck>
             {activitiesList.map((activity) => (
               <Card key={activity.id} status={activity.status}>
-                <div className='div__card--title'>
+                <div className='div__card--title' title={activity.name}>
                   <b>#{activity.id}</b> {activity.name}
                 </div>
 

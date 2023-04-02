@@ -149,6 +149,7 @@ export const Card = styled.div<ICard>`
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
   padding: 0rem 1rem;
+  gap: 1rem;
 
   display: flex;
   justify-content: space-between;
@@ -164,6 +165,17 @@ export const Card = styled.div<ICard>`
     font-size: 1.25rem;
     line-height: 1.5rem;
     color: var(--white);
+  }
+  .div__card--title {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /** número de linhas que você quer exibir */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    b {
+      margin-right: 1rem;
+    }
   }
   .div__card--options {
     align-items: center;
