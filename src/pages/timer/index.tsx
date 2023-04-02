@@ -127,6 +127,19 @@ export default function Timer() {
     [activitiesList],
   );
 
+  const handleDeleteActiviy = useCallback(
+    (activity: IActivity) => {
+      let arrayActivities = activitiesList;
+      let activityIdx = activitiesList.indexOf(activity);
+      activitiesList.splice(activityIdx, 1);
+
+      setActivitiesList([...arrayActivities]);
+
+      if (activity.id === selectedActivity?.id) setSelectedActivity(undefined);
+    },
+    [activitiesList, selectedActivity],
+  );
+
   return (
     <>
       <Head>
@@ -223,7 +236,10 @@ export default function Timer() {
                       <b>{activity.time}</b>
                     </div>
                     {activity.status === 'completed' ? (
-                      <button>
+                      <button
+                        onClick={() => handleDeleteActiviy(activity)}
+                        disabled={counterStart}
+                      >
                         {' '}
                         <Image
                           src={trashIcon}
