@@ -109,7 +109,9 @@ export default function Timer() {
   return (
     <>
       <Head>
-        <title>Timer - UX Software</title>
+        <title>
+          {counterStart ? `(${selectedActivity.time})` : ''} Timer - UX Software
+        </title>
         <meta
           name='description'
           content='Seja o senhor do seu próprio tempo!'
