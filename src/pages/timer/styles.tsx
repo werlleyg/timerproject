@@ -58,7 +58,7 @@ export const Container = styled.section`
 // --------------------------------
 
 interface ITimerContent {
-  status: 'pending' | 'active' | 'completed';
+  status?: 'pending' | 'active' | 'completed';
 }
 
 export const TimerContent = styled.div<ITimerContent>`
@@ -158,6 +158,7 @@ export const Card = styled.div<ICard>`
       ? 'var(--primary-color)'
       : 'var(--tertiary-color-dark)'};
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
   border-radius: 0.5rem;
   padding: 0rem 1rem;
   gap: 1rem;

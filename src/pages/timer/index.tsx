@@ -19,7 +19,7 @@ import pauseIcon from '../../../public/assets/pause-icon.svg';
 import trashIcon from '../../../public/assets/trash-icon.svg';
 import successIcon from '../../../public/assets/success-icon.svg';
 
-interface IActivitiesList {
+interface IActivity {
   id: number;
   name: string;
   time: string;
@@ -27,40 +27,35 @@ interface IActivitiesList {
 }
 
 export default function Timer() {
-  const [activitiesList, setActivitiesList] = useState<IActivitiesList[]>([
+  const [activitiesList, setActivitiesList] = useState<IActivity[]>([
     {
       id: 1,
       name: 'Jogar RE4',
-      time: '30:00',
+      time: '00:05',
       status: 'pending',
     },
     {
       id: 2,
       name: 'Preparar projeto do curso',
-      time: '90:00',
-      status: 'completed',
+      time: '00:05',
+      status: 'pending',
     },
     {
       id: 3,
       name: 'Ler Stephen King',
-      time: '15:00',
-      status: 'active',
+      time: '00:05',
+      status: 'pending',
     },
   ]);
 
-  const [selectedActivity, setSelectedActivity] = useState<IActivitiesList>({
-    id: 1,
-    name: 'Jogar RE4',
-    time: '00:05',
-    status: 'pending',
-  });
+  const [selectedActivity, setSelectedActivity] = useState<IActivity>();
 
   const [counterStart, setCounterStart] = useState<boolean>(false);
 
   const counter = useRef<ReturnType<typeof setInterval> | undefined>();
 
   const startTimer = useCallback(() => {
-    if (!selectedActivity.time) return '--:--';
+    if (!selectedActivity?.time) return '--:--';
 
     setCounterStart(true);
 
@@ -94,6 +89,14 @@ export default function Timer() {
           time: '00:00',
         });
 
+        setActivitiesList((prev) =>
+          prev.map((activityPrev) => {
+            if (activityPrev.id === selectedActivity.id)
+              activityPrev.status = 'completed';
+            return activityPrev;
+          }),
+        );
+
         return setCounterStart(false);
       }
 
@@ -106,11 +109,30 @@ export default function Timer() {
     setCounterStart(false);
   }, [counter]);
 
+  const handleChangeActivity = useCallback(
+    (activity: IActivity) => {
+      let arrayActivities = activitiesList;
+      let activityIdx = activitiesList.indexOf(activity);
+
+      arrayActivities = arrayActivities.map((auxActivity) => {
+        if (auxActivity.status === 'active') auxActivity.status = 'pending';
+        return auxActivity;
+      });
+
+      arrayActivities[activityIdx].status = 'active';
+
+      setActivitiesList(arrayActivities);
+      setSelectedActivity(arrayActivities[activityIdx]);
+    },
+    [activitiesList],
+  );
+
   return (
     <>
       <Head>
         <title>
-          {counterStart ? `(${selectedActivity.time})` : ''} Timer - UX Software
+          {counterStart ? `(${selectedActivity?.time})` : ''} Timer - UX
+          Software
         </title>
         <meta
           name='description'
@@ -137,24 +159,30 @@ export default function Timer() {
         </Header>
         <Container>
           <h1>Timer</h1>
-          <TimerContent status={selectedActivity.status}>
+          <TimerContent status={selectedActivity?.status}>
             <h3>
-              <b>#{selectedActivity.id}</b> {selectedActivity.name}
+              <b>#{selectedActivity?.id || '-'}</b> {selectedActivity?.name}
             </h3>
             <div className='div__timer--counter' id='timer-number'>
-              {selectedActivity.time}
+              {selectedActivity?.time || '--:--'}
             </div>
-            {selectedActivity.status === 'completed' ? (
+            {selectedActivity?.status === 'completed' ? (
               <div className={'div__timer--options'}>
                 <Image src={successIcon} alt='sucesso' />
               </div>
             ) : (
               <div className={'div__timer--options'}>
-                <button onClick={startTimer} disabled={counterStart}>
+                <button
+                  onClick={startTimer}
+                  disabled={counterStart || !selectedActivity}
+                >
                   {' '}
                   <Image src={playIcon} alt='play' />
                 </button>
-                <button onClick={stopTimer} disabled={!counterStart}>
+                <button
+                  onClick={stopTimer}
+                  disabled={!counterStart || !selectedActivity}
+                >
                   <Image src={pauseIcon} alt='pause' />
                 </button>
               </div>
@@ -204,7 +232,10 @@ export default function Timer() {
                         />
                       </button>
                     ) : (
-                      <button>
+                      <button
+                        onClick={() => handleChangeActivity(activity)}
+                        disabled={counterStart}
+                      >
                         {' '}
                         <Image
                           src={playIcon}
