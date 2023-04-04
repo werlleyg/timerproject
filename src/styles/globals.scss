@@ -16,11 +16,14 @@
   --white: #ffffff;
   --gray: #b1afaf;
   --black: #251e1f;
+
+  --shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }
 
 * {
   padding: 0;
   margin: 0;
+  outline-color: var(--primary-color-light);
 }
 
 html,
@@ -68,8 +71,8 @@ a {
 
 .btn__custom {
   min-width: 8rem;
-  min-height: 2.25rem;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  min-height: 2.5rem;
+  box-shadow: var(--shadow);
   border-radius: 2rem;
   font-style: normal;
   font-weight: 400;
@@ -82,6 +85,7 @@ a {
   &--primary {
     background: var(--primary-color-darkness);
     color: var(--white);
+    border: 0;
   }
 
   &--primary-out {
@@ -93,6 +97,7 @@ a {
   &--secondary {
     background: var(--secondary-color);
     color: var(--white);
+    border: 0;
   }
 
   &--secondary-out {

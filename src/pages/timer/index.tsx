@@ -19,6 +19,7 @@ import pauseIcon from '../../../public/assets/pause-icon.svg';
 import trashIcon from '../../../public/assets/trash-icon.svg';
 import successIcon from '../../../public/assets/success-icon.svg';
 import Router from 'next/router';
+import { Dialog } from '@/components/dialog';
 
 interface IActivity {
   id: number;
@@ -28,6 +29,8 @@ interface IActivity {
 }
 
 export default function Timer() {
+  const [showNewActivityDialog, setShowNewActivityDialog] =
+    useState<boolean>(false);
   const [activitiesList, setActivitiesList] = useState<IActivity[]>([
     {
       id: 1,
@@ -141,6 +144,10 @@ export default function Timer() {
     [activitiesList, selectedActivity],
   );
 
+  const handleShowNewActivityDialog = useCallback(() => {
+    setShowNewActivityDialog((prev) => !prev);
+  }, []);
+
   // user
 
   const setLogout = useCallback(() => Router.push('/'), []);
@@ -221,7 +228,10 @@ export default function Timer() {
                 <div className='div__divider__fragment'></div>
               </div>
             </div>
-            <button className='btn__custom btn__custom--primary-out'>
+            <button
+              className='btn__custom btn__custom--primary-out'
+              onClick={handleShowNewActivityDialog}
+            >
               {' '}
               + Atividade
             </button>
@@ -277,6 +287,10 @@ export default function Timer() {
           </Deck>
         </Container>
       </Main>
+      <Dialog
+        showDialog={showNewActivityDialog}
+        pressCancel={handleShowNewActivityDialog}
+      />
     </>
   );
 }

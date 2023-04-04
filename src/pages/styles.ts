@@ -44,7 +44,7 @@ export const Form = styled.form`
   gap: 1rem;
 
   input {
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     border-radius: 2rem;
     border: 0;
     outline: none;
@@ -57,11 +57,12 @@ export const Form = styled.form`
     color: var(--gray);
     /* width: 100%; */
   }
+
   button {
     width: min(100%, 19.125rem);
     height: 4rem;
     background: var(--tertiary-color-dark);
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     border-radius: 2rem;
     border: 0;
     margin: auto;

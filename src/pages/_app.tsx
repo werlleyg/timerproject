@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 
 import { Roboto } from 'next/font/google';
 const roboto = Roboto({
-  weight: ['400', '100', '500', '700'],
+  weight: ['300', '400', '100', '500', '700'],
   style: 'normal',
   subsets: ['latin'],
 });

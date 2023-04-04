@@ -172,7 +172,7 @@ export const Card = styled.div<ICard>`
       : props.status === 'active'
       ? 'var(--primary-color)'
       : 'var(--tertiary-color-dark)'};
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   transition: 0.3s;
   border-radius: 0.5rem;
   padding: 0rem 1rem;
