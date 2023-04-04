@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  FormEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -11,6 +12,7 @@ import { Container, DialogContent, Form } from './styles';
 interface IDialog {
   showDialog: boolean;
   pressCancel: () => void;
+  pressAccept: (newActivity: INewActivity) => void;
 }
 
 interface INewActivity {
@@ -18,7 +20,14 @@ interface INewActivity {
   time?: string;
 }
 
-export function Dialog({ showDialog, pressCancel }: IDialog) {
+interface IActivity {
+  id: number;
+  name: string;
+  time: string;
+  status: 'pending' | 'active' | 'completed';
+}
+
+export function Dialog({ showDialog, pressCancel, pressAccept }: IDialog) {
   const timeOptions = ['05:00', '10:00', '15:00', '20:00', '25:00', '30:00'];
 
   const [newActivity, setNewActivity] = useState<INewActivity>();
@@ -34,6 +43,16 @@ export function Dialog({ showDialog, pressCancel }: IDialog) {
     [],
   );
 
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      pressAccept(newActivity as INewActivity);
+      setNewActivity(undefined);
+      pressCancel();
+    },
+    [newActivity, pressAccept, pressCancel],
+  );
+
   useEffect(() => {
     if (showDialog) {
       document.body.style.overflow = 'hidden';
@@ -46,23 +65,23 @@ export function Dialog({ showDialog, pressCancel }: IDialog) {
     <Container showDialog={showDialog}>
       <DialogContent>
         <h2>Adicionar atividade</h2>
-        <Form>
-          <div className='div__inputs'>
+        <Form onSubmit={handleSubmit}>
+          <div className="div__inputs">
             <input
-              type='text'
-              name='name'
+              type="text"
+              name="name"
               value={newActivity?.name}
-              placeholder='Nome da atividade'
+              placeholder="Nome da atividade"
               onChange={handleChangeInput}
               required
             />
             <select
-              name='time'
+              name="time"
               value={newActivity?.time}
               onChange={handleChangeInput}
               required
             >
-              <option selected value=''>
+              <option selected value="">
                 Tempo em min
               </option>
               {timeOptions.map((time) => (
@@ -72,14 +91,15 @@ export function Dialog({ showDialog, pressCancel }: IDialog) {
               ))}
             </select>
           </div>
-          <div className='div__buttons'>
+          <div className="div__buttons">
             <button
-              className='btn__custom btn__custom--primary-out'
+              type="button"
+              className="btn__custom btn__custom--primary-out"
               onClick={pressCancel}
             >
               Cancelar
             </button>
-            <button className='btn__custom btn__custom--primary'>
+            <button className="btn__custom btn__custom--primary">
               + Adicionar
             </button>
           </div>

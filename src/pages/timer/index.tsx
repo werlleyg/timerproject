@@ -148,6 +148,19 @@ export default function Timer() {
     setShowNewActivityDialog((prev) => !prev);
   }, []);
 
+  const handleAddNewActivity = useCallback(
+    (newActivity: any) => {
+      const auxNewActivity: IActivity = {
+        ...newActivity,
+        id: activitiesList.length + 1,
+        status: 'pending',
+      };
+      console.log('[new Activity]=> ', auxNewActivity);
+      setActivitiesList([...activitiesList, auxNewActivity]);
+    },
+    [activitiesList],
+  );
+
   // user
 
   const setLogout = useCallback(() => Router.push('/'), []);
@@ -160,24 +173,24 @@ export default function Timer() {
           Software
         </title>
         <meta
-          name='description'
-          content='Seja o senhor do seu próprio tempo!'
+          name="description"
+          content="Seja o senhor do seu próprio tempo!"
         />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
         <Header>
-          <div className='div__data-user'>
-            <div className='div__data-user--welcome'>
+          <div className="div__data-user">
+            <div className="div__data-user--welcome">
               Seja bem vindo <b>Werlley Gonçalves</b>
             </div>
-            <div className='div__data-user--email'>werlleyponte@gmail.com</div>
+            <div className="div__data-user--email">werlleyponte@gmail.com</div>
           </div>
-          <button type='button' onClick={setLogout}>
+          <button type="button" onClick={setLogout}>
             <Image
               src={logoutIcon}
-              alt='logout'
+              alt="logout"
               style={{ width: '1.5rem', height: '1.5rem' }}
             />
           </button>
@@ -188,12 +201,12 @@ export default function Timer() {
             <h3>
               <b>#{selectedActivity?.id || '-'}</b> {selectedActivity?.name}
             </h3>
-            <div className='div__timer--counter' id='timer-number'>
+            <div className="div__timer--counter" id="timer-number">
               {selectedActivity?.time || '--:--'}
             </div>
             {selectedActivity?.status === 'completed' ? (
               <div className={'div__timer--options'}>
-                <Image src={successIcon} alt='sucesso' />
+                <Image src={successIcon} alt="sucesso" />
               </div>
             ) : (
               <div className={'div__timer--options'}>
@@ -202,34 +215,34 @@ export default function Timer() {
                   disabled={counterStart || !selectedActivity}
                 >
                   {' '}
-                  <Image src={playIcon} alt='play' />
+                  <Image src={playIcon} alt="play" />
                 </button>
                 <button
                   onClick={stopTimer}
                   disabled={!counterStart || !selectedActivity}
                 >
-                  <Image src={pauseIcon} alt='pause' />
+                  <Image src={pauseIcon} alt="pause" />
                 </button>
               </div>
             )}
           </TimerContent>
-          <div className='div__sub-footer'>
+          <div className="div__sub-footer">
             Desenvolvido com ❤️ por{' '}
-            <a href='http://uxsoftware.com.br' target='_blank'>
+            <a href="http://uxsoftware.com.br" target="_blank">
               UX Software
             </a>
           </div>
           <SubHeader>
-            <div className='div__title'>
+            <div className="div__title">
               <h2>Minhas atividades</h2>
-              <div className='div__divider'>
-                <div className='div__divider__fragment'></div>
-                <div className='div__divider__fragment'></div>
-                <div className='div__divider__fragment'></div>
+              <div className="div__divider">
+                <div className="div__divider__fragment"></div>
+                <div className="div__divider__fragment"></div>
+                <div className="div__divider__fragment"></div>
               </div>
             </div>
             <button
-              className='btn__custom btn__custom--primary-out'
+              className="btn__custom btn__custom--primary-out"
               onClick={handleShowNewActivityDialog}
             >
               {' '}
@@ -239,15 +252,15 @@ export default function Timer() {
           <Deck>
             {activitiesList?.map((activity) => (
               <Card key={activity.id} status={activity.status}>
-                <div className='div__card--title' title={activity.name}>
+                <div className="div__card--title" title={activity.name}>
                   <b>#{activity.id}</b> {activity.name}
                 </div>
 
                 {activity.status === 'active' ? (
-                  <div className='div__card--active-tag'>Atual</div>
+                  <div className="div__card--active-tag">Atual</div>
                 ) : (
-                  <div className='div__card--options'>
-                    <div className='div__card--time'>
+                  <div className="div__card--options">
+                    <div className="div__card--time">
                       <b>{activity.time}</b>
                     </div>
                     {activity.status === 'completed' ? (
@@ -258,7 +271,7 @@ export default function Timer() {
                         {' '}
                         <Image
                           src={trashIcon}
-                          alt='delete'
+                          alt="delete"
                           style={{ width: '2rem', height: '2rem' }}
                         />
                       </button>
@@ -270,7 +283,7 @@ export default function Timer() {
                         {' '}
                         <Image
                           src={playIcon}
-                          alt='play'
+                          alt="play"
                           style={{ width: '2rem', height: '2rem' }}
                         />
                       </button>
@@ -280,7 +293,7 @@ export default function Timer() {
               </Card>
             ))}
             {activitiesList.length === 0 && (
-              <div className='div__empty-deck'>
+              <div className="div__empty-deck">
                 Nenhuma atividade cadastrada
               </div>
             )}
@@ -290,6 +303,7 @@ export default function Timer() {
       <Dialog
         showDialog={showNewActivityDialog}
         pressCancel={handleShowNewActivityDialog}
+        pressAccept={handleAddNewActivity}
       />
     </>
   );
