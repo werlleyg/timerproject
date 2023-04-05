@@ -2,19 +2,9 @@ import { FormEvent, ReactNode, useCallback, useEffect } from 'react';
 
 import { Container, DialogContent, Form } from './styles';
 
-interface IDialog {
-  showDialog: boolean;
-  activity?: IActivity;
-  pressCancel: () => void;
-  pressAccept: (activity: IActivity) => void;
-}
-
-interface IActivity {
-  id: number;
-  name: string;
-  time: string;
-  status: 'pending' | 'active' | 'completed';
-}
+// interfaces
+import { IActivity } from '@/dtos/timer';
+import { IDialog } from '@/dtos/dialog';
 
 export function AlertDialog({
   showDialog,

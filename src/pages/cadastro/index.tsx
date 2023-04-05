@@ -5,12 +5,8 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 // styles
 import { Main, Container, Form, Footer } from './styles';
 
-interface IRegisterData {
-  name?: string;
-  email?: string;
-  password?: string;
-  confirm_password?: string;
-}
+// interfaces
+import { IRegisterData } from '@/dtos/user';
 
 export default function Cadastro() {
   const [registerData, setRegisterData] = useState<IRegisterData>();

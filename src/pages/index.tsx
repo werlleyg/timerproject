@@ -14,10 +14,8 @@ import { API } from './api/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-interface ILoginData {
-  email?: string;
-  password?: string;
-}
+// interfaces
+import { ILoginData } from '@/dtos/user';
 
 export default function Home() {
   const router = useRouter();

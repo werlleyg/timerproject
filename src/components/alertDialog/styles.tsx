@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 
-interface IContainer {
-  showDialog: boolean;
-}
+// interfaces
+import { IPropsDialog } from '@/dtos/dialog';
 
-export const Container = styled.div<IContainer>`
+export const Container = styled.div<IPropsDialog>`
   transition: 0.3s;
   visibility: ${(props) => (props.showDialog ? 'visible' : 'hidden')};
   opacity: ${(props) => (props.showDialog ? '1' : '0')};

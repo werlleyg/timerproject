@@ -22,18 +22,9 @@ import Router, { useRouter } from 'next/router';
 import { NewActivityDialog } from '@/components/newActivityDialog';
 import { AlertDialog } from '@/components/alertDialog';
 
-interface IActivity {
-  id: number;
-  name: string;
-  time: string;
-  status: 'pending' | 'active' | 'completed';
-}
-
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-}
+// interfaces
+import { IActivity } from '@/dtos/timer';
+import { IUser } from '@/dtos/user';
 
 export default function Timer() {
   const router = useRouter();

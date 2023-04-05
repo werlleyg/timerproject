@@ -9,22 +9,14 @@ import {
 
 import { Container, DialogContent, Form } from './styles';
 
-interface IDialog {
-  showDialog: boolean;
-  pressCancel: () => void;
-  pressAccept: (newActivity: INewActivity) => void;
-}
-
-interface INewActivity {
-  name?: string;
-  time?: string;
-}
+// interfaces
+import { INewActivity, INewActivityDialog } from '@/dtos/dialog';
 
 export function NewActivityDialog({
   showDialog,
   pressCancel,
   pressAccept,
-}: IDialog) {
+}: INewActivityDialog) {
   const timeOptions = [
     '00:05',
     '05:00',

@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 
+// interfaces
+import { IPropsStatus } from '@/dtos/timer';
+
 export const Main = styled.div`
   background-color: var(--primary-color-dark);
   min-height: 100%;
@@ -55,13 +58,7 @@ export const Container = styled.section`
   }
 `;
 
-// --------------------------------
-
-interface ITimerContent {
-  status?: 'pending' | 'active' | 'completed';
-}
-
-export const TimerContent = styled.div<ITimerContent>`
+export const TimerContent = styled.div<IPropsStatus>`
   margin-top: 2rem;
   padding: 2rem;
 
@@ -158,13 +155,7 @@ export const Deck = styled.div`
   }
 `;
 
-// --------------------------------
-
-interface ICard {
-  status: 'pending' | 'active' | 'completed';
-}
-
-export const Card = styled.div<ICard>`
+export const Card = styled.div<IPropsStatus>`
   height: 3.875rem;
   background: ${(props) =>
     props.status === 'pending'
