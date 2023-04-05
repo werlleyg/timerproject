@@ -41,7 +41,7 @@ export default function Home() {
         .then((response) => {
           sessionStorage.setItem('token', response.data.token);
           sessionStorage.setItem('user', JSON.stringify(response.data.user));
-          toast.success('Login realizado com sucesso');
+
           router.push('/timer');
         })
         .catch((error) => {
