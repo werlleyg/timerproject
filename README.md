@@ -1,5 +1,7 @@
 
-# <img src="https://github.com/ux-software/uxsoftware-site/blob/develop/public/fav-192.png" width="100px" style="margin-right: 16px"/>Timer - UX Software
+<img src="https://github.com/ux-software/uxsoftware-site/blob/develop/public/fav-192.png" width="100px" style="margin-right: 16px"/>
+
+# Timer - UX Software
 
 ### Pequeno projeto voltado àquele(a) que pretende ter mais controle do tempo dedicado às suas atividades.
 
