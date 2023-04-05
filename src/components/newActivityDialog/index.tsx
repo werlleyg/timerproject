@@ -20,15 +20,20 @@ interface INewActivity {
   time?: string;
 }
 
-interface IActivity {
-  id: number;
-  name: string;
-  time: string;
-  status: 'pending' | 'active' | 'completed';
-}
-
-export function Dialog({ showDialog, pressCancel, pressAccept }: IDialog) {
-  const timeOptions = ['05:00', '10:00', '15:00', '20:00', '25:00', '30:00'];
+export function NewActivityDialog({
+  showDialog,
+  pressCancel,
+  pressAccept,
+}: IDialog) {
+  const timeOptions = [
+    '00:05',
+    '05:00',
+    '10:00',
+    '15:00',
+    '20:00',
+    '25:00',
+    '30:00',
+  ];
 
   const [newActivity, setNewActivity] = useState<INewActivity>();
 
@@ -47,7 +52,10 @@ export function Dialog({ showDialog, pressCancel, pressAccept }: IDialog) {
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       pressAccept(newActivity as INewActivity);
-      setNewActivity(undefined);
+      setNewActivity({
+        name: '',
+        time: '',
+      });
       pressCancel();
     },
     [newActivity, pressAccept, pressCancel],
@@ -66,22 +74,22 @@ export function Dialog({ showDialog, pressCancel, pressAccept }: IDialog) {
       <DialogContent>
         <h2>Adicionar atividade</h2>
         <Form onSubmit={handleSubmit}>
-          <div className="div__inputs">
+          <div className='div__inputs'>
             <input
-              type="text"
-              name="name"
+              type='text'
+              name='name'
               value={newActivity?.name}
-              placeholder="Nome da atividade"
+              placeholder='Nome da atividade'
               onChange={handleChangeInput}
               required
             />
             <select
-              name="time"
+              name='time'
               value={newActivity?.time}
               onChange={handleChangeInput}
               required
             >
-              <option selected value="">
+              <option selected value=''>
                 Tempo em min
               </option>
               {timeOptions.map((time) => (
@@ -91,15 +99,15 @@ export function Dialog({ showDialog, pressCancel, pressAccept }: IDialog) {
               ))}
             </select>
           </div>
-          <div className="div__buttons">
+          <div className='div__buttons'>
             <button
-              type="button"
-              className="btn__custom btn__custom--primary-out"
+              type='button'
+              className='btn__custom btn__custom--primary-out'
               onClick={pressCancel}
             >
               Cancelar
             </button>
-            <button className="btn__custom btn__custom--primary">
+            <button className='btn__custom btn__custom--primary'>
               + Adicionar
             </button>
           </div>
