@@ -21,8 +21,6 @@
 }
 
 * {
-  padding: 0;
-  margin: 0;
   outline-color: var(--primary-color-light);
 }
 
@@ -30,6 +28,8 @@ html,
 body,
 main,
 #__next {
+  padding: 0;
+  margin: 0;
   height: 100%;
   font-family: 'Roboto';
 }

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const Main = styled.div`
   background-color: var(--primary-color-dark);
-  height: 100%;
+  min-height: 100%;
   display: grid;
   grid-template-rows: 1fr 3rem;
 `;
@@ -15,6 +15,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  margin-bottom: 3rem;
 
   p {
     font-style: normal;

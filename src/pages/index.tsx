@@ -1,9 +1,18 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 // styles
 import { Main, Container, Form, Footer } from './styles';
+import { API } from './api/api';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 interface ILoginData {
   email?: string;
@@ -11,6 +20,7 @@ interface ILoginData {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [loginData, setLoginData] = useState<ILoginData>();
 
   const handleInputChange = useCallback(
@@ -27,9 +37,26 @@ export default function Home() {
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log('[SUBMIT]=> ', loginData);
+      API.post('/session', loginData)
+        .then((response) => {
+          sessionStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('user', JSON.stringify(response.data.user));
+          toast.success('Login realizado com sucesso');
+          router.push('/timer');
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+          console.log('[ERROR]=> ', error.response.data);
+        });
     },
-    [loginData],
+    [loginData, router],
   );
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      router.push('/timer');
+    }
+  }, [router]);
 
   return (
     <>

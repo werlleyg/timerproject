@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { ReactNode, useCallback, useState, useRef } from 'react';
+import { ReactNode, useCallback, useState, useRef, useEffect } from 'react';
 
 import {
   Header,
@@ -18,8 +18,9 @@ import playIcon from '../../../public/assets/play-icon.svg';
 import pauseIcon from '../../../public/assets/pause-icon.svg';
 import trashIcon from '../../../public/assets/trash-icon.svg';
 import successIcon from '../../../public/assets/success-icon.svg';
-import Router from 'next/router';
-import { Dialog } from '@/components/dialog';
+import Router, { useRouter } from 'next/router';
+import { NewActivityDialog } from '@/components/newActivityDialog';
+import { AlertDialog } from '@/components/alertDialog';
 
 interface IActivity {
   id: number;
@@ -28,25 +29,25 @@ interface IActivity {
   status: 'pending' | 'active' | 'completed';
 }
 
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function Timer() {
+  const router = useRouter();
+  const [user, setUser] = useState<IUser>();
   const [showNewActivityDialog, setShowNewActivityDialog] =
     useState<boolean>(false);
+  const [showDeleteActivityDialog, setShowDeleteActivityDialog] =
+    useState<boolean>(false);
+
   const [activitiesList, setActivitiesList] = useState<IActivity[]>([
-    {
-      id: 1,
-      name: 'Jogar RE4',
-      time: '00:05',
-      status: 'pending',
-    },
+    // EXAMPLE
     // {
-    //   id: 2,
-    //   name: 'Preparar projeto do curso',
-    //   time: '00:05',
-    //   status: 'pending',
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Ler Stephen King',
+    //   id: 1,
+    //   name: 'Jogar RE4',
     //   time: '00:05',
     //   status: 'pending',
     // },
@@ -138,14 +139,23 @@ export default function Timer() {
       activitiesList.splice(activityIdx, 1);
 
       setActivitiesList([...arrayActivities]);
-
-      if (activity.id === selectedActivity?.id) setSelectedActivity(undefined);
+      handleDeleteActivityCancell();
     },
     [activitiesList, selectedActivity],
   );
 
   const handleShowNewActivityDialog = useCallback(() => {
     setShowNewActivityDialog((prev) => !prev);
+  }, []);
+
+  const handleShowDeleteActivityDialog = useCallback((activity: IActivity) => {
+    setShowDeleteActivityDialog((prev) => !prev);
+    setSelectedActivity(activity);
+  }, []);
+
+  const handleDeleteActivityCancell = useCallback(() => {
+    setShowDeleteActivityDialog((prev) => !prev);
+    setSelectedActivity(undefined);
   }, []);
 
   const handleAddNewActivity = useCallback(
@@ -163,7 +173,19 @@ export default function Timer() {
 
   // user
 
-  const setLogout = useCallback(() => Router.push('/'), []);
+  const setLogout = useCallback(() => {
+    sessionStorage.clear();
+    Router.push('/');
+  }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      const auxUser = JSON.parse(sessionStorage?.getItem('user') + '');
+      setUser(auxUser as IUser);
+    } else {
+      Router.push('/');
+    }
+  }, [router]);
 
   return (
     <>
@@ -173,24 +195,24 @@ export default function Timer() {
           Software
         </title>
         <meta
-          name="description"
-          content="Seja o senhor do seu próprio tempo!"
+          name='description'
+          content='Seja o senhor do seu próprio tempo!'
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <Main>
         <Header>
-          <div className="div__data-user">
-            <div className="div__data-user--welcome">
-              Seja bem vindo <b>Werlley Gonçalves</b>
+          <div className='div__data-user'>
+            <div className='div__data-user--welcome'>
+              Seja bem vindo <b>{user?.name}</b>
             </div>
-            <div className="div__data-user--email">werlleyponte@gmail.com</div>
+            <div className='div__data-user--email'>{user?.email}</div>
           </div>
-          <button type="button" onClick={setLogout}>
+          <button type='button' onClick={setLogout}>
             <Image
               src={logoutIcon}
-              alt="logout"
+              alt='logout'
               style={{ width: '1.5rem', height: '1.5rem' }}
             />
           </button>
@@ -201,12 +223,12 @@ export default function Timer() {
             <h3>
               <b>#{selectedActivity?.id || '-'}</b> {selectedActivity?.name}
             </h3>
-            <div className="div__timer--counter" id="timer-number">
+            <div className='div__timer--counter' id='timer-number'>
               {selectedActivity?.time || '--:--'}
             </div>
             {selectedActivity?.status === 'completed' ? (
               <div className={'div__timer--options'}>
-                <Image src={successIcon} alt="sucesso" />
+                <Image src={successIcon} alt='sucesso' />
               </div>
             ) : (
               <div className={'div__timer--options'}>
@@ -215,34 +237,34 @@ export default function Timer() {
                   disabled={counterStart || !selectedActivity}
                 >
                   {' '}
-                  <Image src={playIcon} alt="play" />
+                  <Image src={playIcon} alt='play' />
                 </button>
                 <button
                   onClick={stopTimer}
                   disabled={!counterStart || !selectedActivity}
                 >
-                  <Image src={pauseIcon} alt="pause" />
+                  <Image src={pauseIcon} alt='pause' />
                 </button>
               </div>
             )}
           </TimerContent>
-          <div className="div__sub-footer">
+          <div className='div__sub-footer'>
             Desenvolvido com ❤️ por{' '}
-            <a href="http://uxsoftware.com.br" target="_blank">
+            <a href='http://uxsoftware.com.br' target='_blank'>
               UX Software
             </a>
           </div>
           <SubHeader>
-            <div className="div__title">
+            <div className='div__title'>
               <h2>Minhas atividades</h2>
-              <div className="div__divider">
-                <div className="div__divider__fragment"></div>
-                <div className="div__divider__fragment"></div>
-                <div className="div__divider__fragment"></div>
+              <div className='div__divider'>
+                <div className='div__divider__fragment'></div>
+                <div className='div__divider__fragment'></div>
+                <div className='div__divider__fragment'></div>
               </div>
             </div>
             <button
-              className="btn__custom btn__custom--primary-out"
+              className='btn__custom btn__custom--primary-out'
               onClick={handleShowNewActivityDialog}
             >
               {' '}
@@ -252,26 +274,26 @@ export default function Timer() {
           <Deck>
             {activitiesList?.map((activity) => (
               <Card key={activity.id} status={activity.status}>
-                <div className="div__card--title" title={activity.name}>
+                <div className='div__card--title' title={activity.name}>
                   <b>#{activity.id}</b> {activity.name}
                 </div>
 
                 {activity.status === 'active' ? (
-                  <div className="div__card--active-tag">Atual</div>
+                  <div className='div__card--active-tag'>Atual</div>
                 ) : (
-                  <div className="div__card--options">
-                    <div className="div__card--time">
+                  <div className='div__card--options'>
+                    <div className='div__card--time'>
                       <b>{activity.time}</b>
                     </div>
                     {activity.status === 'completed' ? (
                       <button
-                        onClick={() => handleDeleteActiviy(activity)}
+                        onClick={() => handleShowDeleteActivityDialog(activity)}
                         disabled={counterStart}
                       >
                         {' '}
                         <Image
                           src={trashIcon}
-                          alt="delete"
+                          alt='delete'
                           style={{ width: '2rem', height: '2rem' }}
                         />
                       </button>
@@ -283,7 +305,7 @@ export default function Timer() {
                         {' '}
                         <Image
                           src={playIcon}
-                          alt="play"
+                          alt='play'
                           style={{ width: '2rem', height: '2rem' }}
                         />
                       </button>
@@ -293,17 +315,23 @@ export default function Timer() {
               </Card>
             ))}
             {activitiesList.length === 0 && (
-              <div className="div__empty-deck">
+              <div className='div__empty-deck'>
                 Nenhuma atividade cadastrada
               </div>
             )}
           </Deck>
         </Container>
       </Main>
-      <Dialog
+      <NewActivityDialog
         showDialog={showNewActivityDialog}
         pressCancel={handleShowNewActivityDialog}
         pressAccept={handleAddNewActivity}
+      />
+      <AlertDialog
+        showDialog={showDeleteActivityDialog}
+        activity={selectedActivity}
+        pressCancel={handleDeleteActivityCancell}
+        pressAccept={handleDeleteActiviy}
       />
     </>
   );

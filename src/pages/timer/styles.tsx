@@ -94,7 +94,7 @@ export const TimerContent = styled.div<ITimerContent>`
       align-items: center;
       justify-content: center;
       gap: 4rem;
-      margin-top: 1rem;
+      margin: 1rem 0rem;
 
       button {
         background: transparent;
