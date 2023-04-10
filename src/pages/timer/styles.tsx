@@ -226,3 +226,5 @@ export const Card = styled.div<IPropsStatus>`
     transition: 0.3s;
   }
 `;
+
+export default Main;

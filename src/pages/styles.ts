@@ -95,3 +95,5 @@ export const Footer = styled.footer`
 
   color: var(--white);
 `;
+
+export default Main;

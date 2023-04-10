@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { ReactNode, useCallback, useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 
 import {
   Header,
@@ -10,7 +11,6 @@ import {
   Deck,
   Card,
 } from './styles';
-import Image from 'next/image';
 
 // icons
 import logoutIcon from '../../../public/assets/logout-icon.svg';
