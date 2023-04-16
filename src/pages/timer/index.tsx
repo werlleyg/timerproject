@@ -69,8 +69,8 @@ export default function Timer() {
         auxSeconds = 59;
       }
 
-      minutes = auxMinutes < 10 ? '0' + auxMinutes : '' + auxMinutes;
-      seconds = auxSeconds < 10 ? '0' + auxSeconds : '' + auxSeconds;
+      minutes = ('' + auxMinutes).padStart(2, '0');
+      seconds = ('' + auxSeconds).padStart(2, '0');
 
       setSelectedActivity({
         ...selectedActivity,
