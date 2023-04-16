@@ -22,3 +22,8 @@ export interface IUserLogin {
   loginData?: ILoginData;
   callBack: (a?: any) => void;
 }
+
+export interface IUserCreate {
+  registerData?: IRegisterData;
+  callBack: (a?: any) => void;
+}
