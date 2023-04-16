@@ -8,7 +8,7 @@ import { Main, Container, Form, Footer } from './styles';
 // interfaces
 import { IRegisterData, IUserCreate } from '@/dtos/user';
 import { toast } from 'react-toastify';
-import { userCreate } from '@/services/user';
+import { userCreate } from '@/services/user.service';
 import { useRouter } from 'next/router';
 
 export default function Cadastro() {

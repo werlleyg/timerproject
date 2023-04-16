@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 // services
-import { userLogin } from '@/services/user';
+import { userLogin } from '@/services/user.service';
 
 // styles
 import { Main, Container, Form, Footer } from './styles';
