@@ -19,7 +19,7 @@ export function userCreate({ registerData, callBack }: IUserCreate) {
     .then((response) => {
       const data = response.data;
       console.log('[user create]=> ', data);
-      toast.error('Usuário cadastrado com sucesso');
+      toast.success('Usuário cadastrado com sucesso');
       callBack();
     })
     .catch((error) => {
