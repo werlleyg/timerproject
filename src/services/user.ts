@@ -1,5 +1,8 @@
+// interfaces
 import { IUser, IUserCreate, IUserLogin } from '@/dtos/user';
+// baseUrl api
 import API from './axios';
+// toast
 import { toast } from 'react-toastify';
 
 export function userLogin({ loginData, callBack }: IUserLogin) {
