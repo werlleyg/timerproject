@@ -12,8 +12,8 @@
 ---
 
 ### Features V1.0
--   [ ] Desenvolver aplicação Front-end   
--   [ ] Desenvolver aplicação Back-end (Em breve)
+-   [x] Desenvolver aplicação Front-end   
+-   [X] [Aplicação Back-end](https://github.com/willianspraciano/introducao-node-secs)
 -   [ ] Documentar (Em breve)
 
 <br/>
@@ -44,10 +44,9 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 ### 📦 Padrões de desenvolvimento
 
-1. O fluxo de desenvolvimento deve ser realizado utilizando [Git Flow](https://www.alura.com.br/artigos/git-flow-o-que-e-como-quando-utilizar) (Ex. de prefixos: `feat:` para novas features, `fix:` para correção de bugs, `hotfix:` para correção de bugs urgentes e críticos, `chore:` para acréscimo de novas bibliotecas, `refactor:` para refatorar código, etc.)
-2. O fluxo para desenvolvimento é: abrir issue > criar branch a partir da issue > abrir pull request para `develop` solicitando responsável por fazer code review
-3. O nome da branch deve ter o tipo de desenvolvimento como prefixo e ser acompanhado do código de rastreio disponibilizado na task do Click Up como sufixo (Ex. de nome para branch: `feat/create_new_login_flow_CU-WCLF5655`)
-4. IMPORTANTE: cuidado para não realizar alterações diretamente nas branchs principais `main` e `develop`
+1. O fluxo de desenvolvimento deve ser realizado utilizando [Git Flow](https://www.alura.com.br/artigos/git-flow-o-que-e-como-quando-utilizar) (Ex. de prefixos: `feat:` para novas features, `fix:` para correção de bugs, `hotfix:` para correção de bugs urgentes e críticos, `chore:` para acréscimo de novas bibliotecas, `refactor:` para refatorar código, etc.);
+2. O fluxo para desenvolvimento é: abrir issue > criar branch a partir da issue > abrir pull request para `develop` solicitando responsável por fazer code review;
+3. IMPORTANTE: cuidado para não realizar alterações diretamente nas branchs principais `main` e `develop`.
 
 <br/>
 
