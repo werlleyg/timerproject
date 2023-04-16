@@ -6,9 +6,13 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { Main, Container, Form, Footer } from './styles';
 
 // interfaces
-import { IRegisterData } from '@/dtos/user';
+import { IRegisterData, IUserCreate } from '@/dtos/user';
+import { toast } from 'react-toastify';
+import { userCreate } from '@/services/user.service';
+import { useRouter } from 'next/router';
 
 export default function Cadastro() {
+  const router = useRouter();
   const [registerData, setRegisterData] = useState<IRegisterData>();
 
   const handleInputChange = useCallback(
@@ -21,12 +25,25 @@ export default function Cadastro() {
     [],
   );
 
+  const toLoginPage = useCallback(() => {
+    router.push('/');
+  }, [router]);
+
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      if (registerData?.password !== registerData?.confirm_password)
+        return toast.error('As senhas não correspondem');
       console.log('[SUBMIT]=> ', registerData);
+
+      const payload: IUserCreate = {
+        registerData: registerData,
+        callBack: toLoginPage,
+      };
+
+      userCreate(payload);
     },
-    [registerData],
+    [registerData, toLoginPage],
   );
 
   return (

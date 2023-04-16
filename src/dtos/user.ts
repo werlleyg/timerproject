@@ -15,3 +15,15 @@ export interface IRegisterData {
   password?: string;
   confirm_password?: string;
 }
+
+// services
+
+export interface IUserLogin {
+  loginData?: ILoginData;
+  callBack: (a?: any) => void;
+}
+
+export interface IUserCreate {
+  registerData?: IRegisterData;
+  callBack: (a?: any) => void;
+}

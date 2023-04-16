@@ -8,14 +8,17 @@ import {
   useState,
 } from 'react';
 
+// services
+import { userLogin } from '@/services/user.service';
+
 // styles
 import { Main, Container, Form, Footer } from './styles';
-import { API } from '../lib/axios';
+import API from '../services/axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
 // interfaces
-import { ILoginData } from '@/dtos/user';
+import { ILoginData, IUser, IUserLogin } from '@/dtos/user';
 
 export default function Home() {
   const router = useRouter();
@@ -31,23 +34,28 @@ export default function Home() {
     [],
   );
 
+  const setStorage = useCallback(
+    (data: any) => {
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('user', JSON.stringify(data.user));
+      router.push('/timer');
+    },
+    [router],
+  );
+
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log('[SUBMIT]=> ', loginData);
-      API.post('/session', loginData)
-        .then((response) => {
-          sessionStorage.setItem('token', response.data.token);
-          sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
-          router.push('/timer');
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-          console.log('[ERROR]=> ', error.response.data);
-        });
+      const payload: IUserLogin = {
+        loginData,
+        callBack: setStorage,
+      };
+
+      userLogin(payload);
     },
-    [loginData, router],
+    [loginData, setStorage],
   );
 
   useEffect(() => {
