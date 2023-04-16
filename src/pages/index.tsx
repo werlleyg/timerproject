@@ -10,7 +10,7 @@ import {
 
 // styles
 import { Main, Container, Form, Footer } from './styles';
-import { API } from '../lib/axios';
+import { API } from '../services/axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
