@@ -7,6 +7,7 @@ import { Main, Container, Form, Footer } from './styles';
 
 // interfaces
 import { IRegisterData } from '@/dtos/user';
+import { toast } from 'react-toastify';
 
 export default function Cadastro() {
   const [registerData, setRegisterData] = useState<IRegisterData>();
@@ -24,6 +25,8 @@ export default function Cadastro() {
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      if (registerData?.password !== registerData?.confirm_password)
+        return toast.error('As senhas não correspondem');
       console.log('[SUBMIT]=> ', registerData);
     },
     [registerData],
