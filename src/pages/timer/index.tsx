@@ -25,6 +25,7 @@ import { AlertDialog } from '@/components/alertDialog';
 // interfaces
 import { IActivity } from '@/dtos/timer';
 import { IUser } from '@/dtos/user';
+import { getActivityList } from '@/services/timer.service';
 
 export default function Timer() {
   const router = useRouter();
@@ -162,8 +163,12 @@ export default function Timer() {
     [activitiesList],
   );
 
-  // user
+  const getActivities = useCallback(
+    () => getActivityList(setActivitiesList),
+    [],
+  );
 
+  // user
   const setLogout = useCallback(() => {
     sessionStorage.clear();
     Router.push('/');
@@ -173,6 +178,7 @@ export default function Timer() {
     if (sessionStorage.getItem('token')) {
       const auxUser = JSON.parse(sessionStorage?.getItem('user') + '');
       setUser(auxUser as IUser);
+      getActivities();
     } else {
       Router.push('/');
     }
