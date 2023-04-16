@@ -1,5 +1,6 @@
-import { IUser, IUserLogin } from '@/dtos/user';
+import { IUser, IUserCreate, IUserLogin } from '@/dtos/user';
 import API from './axios';
+import { toast } from 'react-toastify';
 
 export function userLogin({ loginData, callBack }: IUserLogin) {
   API.post('/session', loginData)
@@ -10,5 +11,19 @@ export function userLogin({ loginData, callBack }: IUserLogin) {
     })
     .catch((error) => {
       console.log('[error]=> ', error);
+    });
+}
+
+export function userCreate({ registerData, callBack }: IUserCreate) {
+  API.post('/create', registerData)
+    .then((response) => {
+      const data = response.data;
+      console.log('[user create]=> ', data);
+      toast.error('Usuário cadastrado com sucesso');
+      callBack();
+    })
+    .catch((error) => {
+      console.log('[error]=> ', error);
+      toast.error(error.data?.response?.message);
     });
 }
